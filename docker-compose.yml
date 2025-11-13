@@ -1,0 +1,47 @@
+
+services:
+  # 1. PostgreSQL Database Service
+  db:
+    image: postgres:14-alpine
+    container_name: postgres-db
+    restart: always
+    environment:
+      # Database access credentials - MUST match application.yml/environment variables
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: transaction_db
+    ports:
+      # Exposes DB port to your host machine (optional, but helpful for debugging)
+      - "5432:5432"
+    volumes:
+      # Persists data to your host machine so data isn't lost on container stop
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. Spring Boot Application Service
+  aggregation-api:
+    build: src/main/java # Tells Docker to use the Dockerfile in the current directory
+    container_name: transaction-aggregation-api
+    ports:
+      - "8080:8080"
+    environment:
+      # Connection to the 'db' service using the service name as the hostname
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/transaction_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+    # Ensures the database container is started before the application attempts to connect
+    depends_on:
+      db:
+        condition: service_healthy # Wait until the healthcheck passes
+
+    # Define a healthcheck for the database (needed by the depends_on)
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d transaction_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  # Define the volume for persistent DB storage
+  postgres_data:

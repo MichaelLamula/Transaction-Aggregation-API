@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    # IMPORTANT: This line uses the environment variable (set to 'db' in docker-compose.yml)
+    # and only falls back to 'localhost' if the environment variable is not set (e.g., when running tests locally).
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/transaction_db}
+    username: ${SPRING_DATASOURCE_USERNAME:user}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+aggregation:
+  enabled: true

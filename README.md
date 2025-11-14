@@ -29,10 +29,27 @@ The API will be running at http://localhost:8080.
 ### How to Test the Project
 You can use a tool like cURL or Postman to test the main endpoints.
 
-End points:
+Postman collection link:
+
+https://.postman.co/workspace/My-Workspace~4fd56fb0-1335-465f-85d6-6591a26b4c61/request/25910475-cf0bebcd-efd7-4d54-b8b0-30a290223c93?action=share&creator=25910475&ctx=documentation
+
+End points (Test Proofs):
+
  1. http://localhost:8080/api/v1/transactions
+
+   ![img.png](img.png)
+
+
  2. http://localhost:8080/api/v1/transactions/customer/{customerId}/summary
+    ![img_1.png](img_1.png)
+
+
  3. http://localhost:8080/api/v1/transactions?page=0&size=10
+    ![img_2.png](img_2.png)
+
+### Unit Test
+![img_3.png](img_3.png)
+
 
 
 ### Build by

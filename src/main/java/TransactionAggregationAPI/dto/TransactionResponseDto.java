@@ -9,12 +9,12 @@ import java.time.Instant;
 @Value
 @Builder
 public class TransactionResponseDto {
-    private String transactionReference; // A public-facing ID, possibly derived/hashed from the internal ID
+    private String transactionReference;
     private Long customerId;
     private BigDecimal amount;
     private String currency;
     private String description;
-    private String category; // The key categorized field
+    private String category;
     private Instant transactionDate;
     private String sourceSystem;
 }
